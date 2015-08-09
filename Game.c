@@ -22,7 +22,7 @@ Liste *initialisation()
     return liste;
 }
 
-void insertion(Liste *liste, Coup coup)
+void insertion(Liste *liste, Coup *coup)
 {
     /* Création du nouvel élément */
     Coup *nouveau = malloc(sizeof(*nouveau));
@@ -30,9 +30,10 @@ void insertion(Liste *liste, Coup coup)
     {
         exit(EXIT_FAILURE);
     }
-    strncpy(nouveau->player, coup.player, sizeof (nouveau->player));
-    nouveau->ligne = coup.ligne;
-    nouveau->colonne = coup.colonne;
+
+    strncpy(nouveau->player, coup->player, sizeof (nouveau->player));
+    nouveau->ligne = coup->ligne;
+    nouveau->colonne = coup->colonne;
 
     /* Insertion de l'élément au début de la liste */
     nouveau->suivant = liste->premier;

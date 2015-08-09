@@ -8,11 +8,11 @@
 CC=gcc
 PARAMS=-W -Wall -Wextra -std=c99
 
-all: mrproper morpion clean
+all: mrproper zorglob clean
 
-#Génère le fichier morpion.exe
-morpion: create-grille.o create-player.o create-sauvegarde.o create-game.o create-main.o
-	$(CC) -o morpion grille.o player.o sauvegarde.o game.o main.o
+#Génère le fichier zorglob.exe
+zorglob: create-grille.o create-player.o create-sauvegarde.o create-game.o create-main.o
+	$(CC) -o zorglob grille.o player.o sauvegarde.o game.o main.o
 
 #Génère le fichier temporaire grille.o
 create-grille.o: grille.c
@@ -38,6 +38,6 @@ create-main.o: main.c grille.h player.h sauvegarde.h
 clean:
 	rm -rf *.o
 
-#Efface le fichier morpion.exe
+#Efface le fichier zorglob.exe
 mrproper: clean
-	rm -rf morpion
+	rm -rf zorglob
