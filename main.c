@@ -211,7 +211,7 @@ int main (){
 	int result = 0;
 	menuJeu();
 	printf("mode %d |", mode);
-	printf("isGameReloaded %s |", isGameReloaded);
+	printf("isGameReloaded %c |", isGameReloaded);
 	g = generer_grille(tab);
 	if(isGameReloaded == NO) {
 		menuJoueur();
