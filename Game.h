@@ -19,16 +19,22 @@ struct Game
 };
 
 
-typedef struct Tour Tour;
-struct Tour
+typedef struct Coup Coup;
+struct Coup
 {
-    Tour *suivant;
+    char player[26];
+    int ligne;
+    int colonne;
+    Coup *suivant;
 };
 
 typedef struct Liste Liste;
 struct Liste
 {
-    int nbTour;
-    Tour *premier;
+    int nbCoup;
+    Coup *premier;
 };
 
+
+Liste *initialisation();
+void insertion(Liste *liste, Coup coup);

@@ -11,8 +11,8 @@ PARAMS=-W -Wall -Wextra -std=c99
 all: mrproper morpion clean
 
 #Génère le fichier morpion.exe
-morpion: create-grille.o create-player.o create-sauvegarde.o create-main.o
-	$(CC) -o morpion grille.o player.o sauvegarde.o main.o
+morpion: create-grille.o create-player.o create-sauvegarde.o create-game.o create-main.o
+	$(CC) -o morpion grille.o player.o sauvegarde.o game.o main.o
 
 #Génère le fichier temporaire grille.o
 create-grille.o: grille.c
@@ -25,6 +25,10 @@ create-player.o: player.c
 #Génère le fichier temporaire sauvegarde.o
 create-sauvegarde.o: sauvegarde.c
 	$(CC) -o sauvegarde.o -c sauvegarde.c $(PARAMS)
+
+#Génère le fichier temporaire game.o
+create-game.o: sauvegarde.c
+	$(CC) -o Game.o -c Game.c $(PARAMS)
 
 #Génère le fichier temporaire main.o
 create-main.o: main.c grille.h player.h sauvegarde.h
