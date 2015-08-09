@@ -23,16 +23,16 @@
 #define EXIT 4
 
 Game *game;
-
-char tab[LIGNE][COLONNE];
-
 grille g;
+Liste *liste;
+time_t debut, fin;
+
+char joueur[26];
+char tab[LIGNE][COLONNE];
 int tour, count = 0;
 int last = 0;
 int duree;
 int isGameReloaded = NO;
-Liste *liste;
-time_t debut, fin;
 
 void exitGame(void)
 {
@@ -43,18 +43,6 @@ void loadGame(void)
 {
 	isGameReloaded = YES;
 	readData();
-	
-	/*
-	sov = lireSauvegarde();
-	strncpy(g.joueur, sov.nom, PLAYER_NAME_SIZE);
-	game->mode = sov.mode;
-	game->scoreJoueur1 = sov.score;
-	game->scoreJoueur2 = sov.score;*/
-
-	/*printf("mode: %d\n", sov.mode);
-	printf("score: %d\n", score_joueur2);
-	printf("nom: %s\n", sov.nom);
-	printf("coups: %s\n", sov.coups);*/
 }
 
 /* Choisir le mode de jeu MULTI pour deux humains et SOLO pour humain contre ordinateur */
@@ -98,17 +86,14 @@ void menuJoueur(void)
 		strncpy(game->nomJoueur2, joueur2, PLAYER_NAME_SIZE);
 	} else if( game->mode == SOLO){
 		strncpy(game->nomJoueur2, "Computer", PLAYER_NAME_SIZE);
-	} else {
-
 	}
-	printf("g.joueur1 after create: %s\n", g.joueur1);
 }
 
 /* Mise à jour des sccores */
 void misAJourScore(int result)
 {
 	if(result == 1) {
-		printf("Bravo Joueur %s, a vous avez gagner 1 point\nAppuyer sur Entrée pour continuer la partie", g.joueur);
+		printf("Bravo Joueur %s, a vous avez gagner 1 point\nAppuyer sur Entrée pour continuer la partie", joueur);
 		/*scanf("%s", next); */
 		if(tour == 0) {
 			game->scoreJoueur1 = game->scoreJoueur1 + 1;
@@ -139,7 +124,7 @@ void verifierFinPartie(void)
 				score = game->scoreJoueur1;
 			else 
 				score = game->scoreJoueur2;
-			printf("Le joueur %s gagne avec %d points!\n, %c \n Le match a duré %d", g.joueur, score, g.statut, duree);
+			printf("Le joueur %s gagne avec %d points!\n, %c \n Le match a duré %d", joueur, score, g.statut, duree);
 		}	
 	}
 	else {
@@ -149,16 +134,16 @@ void verifierFinPartie(void)
 	*/
 		if(tour == 0) {
 			tour = 1;
-			strncpy(g.joueur, game->nomJoueur2, PLAYER_NAME_SIZE);
+			strncpy(joueur, game->nomJoueur2, PLAYER_NAME_SIZE);
 	/*		printf("game->nomJoueur2 %s\n", game->nomJoueur2);
-			printf("g.joueur %s\n\n", g.joueur);
+			printf("joueur %s\n\n", joueur);
 	*/
 
 		} else {
 			tour = 0;
-			strncpy(g.joueur, game->nomJoueur1, PLAYER_NAME_SIZE);
+			strncpy(joueur, game->nomJoueur1, PLAYER_NAME_SIZE);
 	/*		printf("game->nomJoueur1 %s\n", game->nomJoueur1);
-			printf("g.joueur %s\n\n", g.joueur);
+			printf("joueur %s\n\n", joueur);
 	*/
 		}
 	}
@@ -169,7 +154,6 @@ int jouer(int tour)
 {
 	int ligne, col;
 	int correctAnswer = 0;
-	printf("tour :: %d\n\n", tour);
 	do {
 		ligne = saisie_donnee("Ligne : ");
 		col = saisie_donnee("Colonne : ");
@@ -183,21 +167,21 @@ int jouer(int tour)
 		strncpy(coup->player, game->nomJoueur1, PLAYER_NAME_SIZE);
 		insertion(liste, coup);
 		g.tab[col][ligne] = 'O';
-		/*sauvegardeCoups(ligne, col, tour);*/
 	}else {
 		coup->ligne = ligne;
 		coup->colonne = col;
 		strncpy(coup->player, game->nomJoueur2, PLAYER_NAME_SIZE);
 		insertion(liste, coup);
 		g.tab[col][ligne] = 'X';
-	/*	sauvegardeCoups(ligne, col, tour);*/
 	}
 	afficherListe(liste);
 	return 0;
 }
 
-int main (){
-	
+int
+main ()
+{
+
 	menuJeu();
 	g = generer_grille(g.tab);
 	if(isGameReloaded == NO) {
@@ -205,15 +189,11 @@ int main (){
 	}
 	time(&debut);
 	afficher_grille(g.tab, game->scoreJoueur1, game->scoreJoueur2);
-	strncpy(g.joueur, game->nomJoueur1, PLAYER_NAME_SIZE);
+	strncpy(joueur, game->nomJoueur1, PLAYER_NAME_SIZE);
 	liste = initialisation();
-
 	while (g.statut == VIDE)
 	{
-		printf("VIDE: %d \n", VIDE);
-		printf("g.statut: %c \n", g.statut);
-		printf("game->mode: %d \n", game->mode);
-		printf("Joueur %s, a vous de jouer !\n", g.joueur);
+		printf("Joueur %s, a vous de jouer !\n", joueur);
 		if(game->mode == MULTI) {
 			jouer(tour);
 		} else {
@@ -224,10 +204,8 @@ int main (){
 				g.tab[coup.ligne][coup.colonne] = 'X';
 				/* TEST WRITE DATA
 				   writeData(liste, game);*/
-
 			}
 		}
-
 		g.nb_vide--;
 		/* Test si 3 pions sont allignés */
 		/*result = verifier_grille(g.tab);*/
