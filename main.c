@@ -25,22 +25,13 @@
 Game *game;
 
 char tab[LIGNE][COLONNE];
-sauve sov;
+
 grille g;
-char X ='X';
-char O ='O';
-
-char ordi[20] = "Ordinateur";
 int tour, count = 0;
-
 int last = 0;
-
 int duree;
-int mode;
 int isGameReloaded = NO;
-
 Liste *liste;
-
 time_t debut, fin;
 
 void exitGame(void)
@@ -52,6 +43,7 @@ void loadGame(void)
 {
 	isGameReloaded = YES;
 	readData();
+	
 	/*
 	sov = lireSauvegarde();
 	strncpy(g.joueur, sov.nom, PLAYER_NAME_SIZE);
@@ -207,8 +199,6 @@ int jouer(int tour)
 int main (){
 	
 	menuJeu();
-	printf("mode %d |", game->mode);
-	printf("isGameReloaded %c |", isGameReloaded);
 	g = generer_grille(g.tab);
 	if(isGameReloaded == NO) {
 		menuJoueur();
