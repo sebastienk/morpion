@@ -188,14 +188,14 @@ int jouer(int tour)
 		coup->ligne = ligne;
 		coup->colonne = col;
 		strncpy(coup->player, game->nomJoueur1, PLAYER_NAME_SIZE);
-		/*insertion(liste, coup);*/
+		insertion(liste, coup);
 		tab[col][ligne] = 'O';
 		/*sauvegardeCoups(ligne, col, tour);*/
 	}else {
 		coup->ligne = ligne;
 		coup->colonne = col;
 		strncpy(coup->player, game->nomJoueur2, PLAYER_NAME_SIZE);
-		/*insertion(liste, coup);*/
+		insertion(liste, coup);
 		tab[col][ligne] = 'X';
 	/*	sauvegardeCoups(ligne, col, tour);*/
 	}
@@ -234,10 +234,10 @@ int main (){
 			}
 		}
 
-		/*g.nb_vide--;*/
+		g.nb_vide--;
 		/* Test si 3 pions sont allignés */
 		/*result = verifier_grille(tab);*/
-		/*misAJourScore(1);*/
+		misAJourScore(1);
 		/* Vérifie si la partie est finie */
 		verifierFinPartie();
 	}

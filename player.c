@@ -15,9 +15,8 @@
 int saisie_donnee (char * invite) {
    int value;
 	do {
-      printf ("---- %s\n", invite);
+      printf (" %s", invite);
 	  value = getchar();
-	  printf("value %c ", value);
 	  value -= '0';
    }while((value<0) || (value >9));
    return value;
