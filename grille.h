@@ -29,7 +29,8 @@ struct grille {
   char statut;
 } g;
 
-grille generer_grille (char tab[][COLONNE]);
+/*grille generer_grille (char tab[][COLONNE]);*/
+grille generer_grille ();
 
 void afficher_grille (char tab[][COLONNE], int score1, int score2);
 

@@ -9,8 +9,6 @@
 #include "sauvegarde.h"
 #include "player.h"
 
-#define TRUE 1
-#define FALSE 0
 #define LIGNE 10
 #define COLONNE 10
 #define MATCH_NUL 'N'
@@ -150,7 +148,7 @@ void verifierFinPartie(void)
 		}	
 	}
 	else {
-		afficher_grille(tab, game->scoreJoueur1, game->scoreJoueur2);
+		afficher_grille(g.tab, game->scoreJoueur1, game->scoreJoueur2);
 	/*	printf("game->scoreJoueur1 %d\n", game->scoreJoueur1);
 		printf("game->scoreJoueur2 %d\n", game->scoreJoueur2);
 	*/
@@ -180,7 +178,7 @@ int jouer(int tour)
 	do {
 		ligne = saisie_donnee("Ligne : ");
 		col = saisie_donnee("Colonne : ");
-		if(tab[col][ligne] != '.')
+		if(g.tab[col][ligne] != '.')
 			correctAnswer = 1;
 	} while(correctAnswer == 1);
 	struct Coup *coup = malloc(sizeof(coup));
@@ -189,16 +187,17 @@ int jouer(int tour)
 		coup->colonne = col;
 		strncpy(coup->player, game->nomJoueur1, PLAYER_NAME_SIZE);
 		insertion(liste, coup);
-		tab[col][ligne] = 'O';
+		g.tab[col][ligne] = 'O';
 		/*sauvegardeCoups(ligne, col, tour);*/
 	}else {
 		coup->ligne = ligne;
 		coup->colonne = col;
 		strncpy(coup->player, game->nomJoueur2, PLAYER_NAME_SIZE);
 		insertion(liste, coup);
-		tab[col][ligne] = 'X';
+		g.tab[col][ligne] = 'X';
 	/*	sauvegardeCoups(ligne, col, tour);*/
 	}
+	afficherListe(liste);
 	return 0;
 }
 
@@ -207,12 +206,12 @@ int main (){
 	menuJeu();
 	printf("mode %d |", game->mode);
 	printf("isGameReloaded %c |", isGameReloaded);
-	g = generer_grille(tab);
+	g = generer_grille(g.tab);
 	if(isGameReloaded == NO) {
 		menuJoueur();
 	}
 	time(&debut);
-	afficher_grille(tab, game->scoreJoueur1, game->scoreJoueur2);
+	afficher_grille(g.tab, game->scoreJoueur1, game->scoreJoueur2);
 	strncpy(g.joueur, game->nomJoueur1, PLAYER_NAME_SIZE);
 	liste = initialisation();
 
@@ -228,15 +227,14 @@ int main (){
 			if(tour == 0) {
 				jouer(tour);
 			} else {
-				struct Coup coup;
-				ordijouer(tab, coup);
-				tab[coup.ligne][coup.colonne] = 'O';
+				struct Coup coup = ordijouer(g.tab);
+				g.tab[coup.ligne][coup.colonne] = 'X';
 			}
 		}
 
 		g.nb_vide--;
 		/* Test si 3 pions sont allignés */
-		/*result = verifier_grille(tab);*/
+		/*result = verifier_grille(g.tab);*/
 		misAJourScore(1);
 		/* Vérifie si la partie est finie */
 		verifierFinPartie();

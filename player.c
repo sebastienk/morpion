@@ -46,7 +46,7 @@ int choseGameType(void)
 }
 
 /* ordinateur joue un coup */
-void ordijouer(char tab[LIGNE][COLONNE], struct Coup coup)
+struct Coup ordijouer(char tab[][COLONNE])
 {
 	int ligne, col;
 	int correctAnswer = 0;
@@ -55,9 +55,12 @@ void ordijouer(char tab[LIGNE][COLONNE], struct Coup coup)
 		col = getComputerCoord();
 		if(tab[col][ligne] != '.')
 			correctAnswer = 1;
+
 	} while(correctAnswer == 1);
+	struct Coup coup;
 	coup.ligne = ligne;
 	coup.colonne = col;
-	strncpy(coup.player, "Computer", PLAYER_NAME_SIZE);
-	/*return coup;*/
+	/*strncpy(coup.player, "Computer", 8);*/
+	printf("after set coup.ligne : %d\n ", coup.ligne);
+	return coup;
 }

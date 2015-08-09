@@ -16,13 +16,14 @@ void ClearScreen()
 }
 
 
-grille generer_grille (char tab[][COLONNE])
+grille generer_grille ()
 { 
 	grille g;
+	//g.tab = tab[LIGNE][COLONNE];
 	int m, n;
 	for (m = 0; m < LIGNE; m++){
 		for (n = 0; n < COLONNE; n++){
-			tab[n][m] = '.';
+			g.tab[n][m] = '.';
 	    }
 	}
 	g.nb_vide = 100;

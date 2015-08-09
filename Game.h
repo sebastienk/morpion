@@ -28,6 +28,6 @@ struct Liste {
     Coup *premier;
 };
 
-
 Liste *initialisation();
 void insertion(Liste *liste, Coup *coup);
+void afficherListe(Liste *liste);

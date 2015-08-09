@@ -18,7 +18,7 @@ Liste *initialisation()
     }
     liste->nbCoup = 0;
     tour->suivant = NULL;
-    liste->premier = tour;
+    liste->premier = NULL;
     return liste;
 }
 
@@ -38,4 +38,19 @@ void insertion(Liste *liste, Coup *coup)
     /* Insertion de l'élément au début de la liste */
     nouveau->suivant = liste->premier;
     liste->premier = nouveau;
+}
+
+void afficherListe(Liste *liste)
+{
+    if (liste == NULL)
+    {
+        exit(EXIT_FAILURE);
+    }
+    Coup *coup = liste->premier;
+    while (coup != NULL)
+    {
+        printf("%s -> ", coup->player);
+        coup = coup->suivant;
+    }
+    printf("NULL\n");
 }
