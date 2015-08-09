@@ -22,7 +22,7 @@ struct grille {
   char tab[LIGNE][COLONNE];
   char joueur1[26];
   char joueur2[26];
-  char joueur[10];
+  char joueur[26];
   char score_joueur1[5];
   char score_joueur2[5];
   int nb_vide;
@@ -33,7 +33,7 @@ grille generer_grille (char tab[][COLONNE]);
 
 void afficher_grille (char tab[][COLONNE], int score1, int score2);
 
-int verifier_grille(char grille[LIGNE][COLONNE]);
+int verifier_grille();
 
 void ClearScreen (void);
 

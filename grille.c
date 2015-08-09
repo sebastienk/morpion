@@ -57,7 +57,7 @@ void afficher_grille (char tab[][COLONNE], int score1, int score2)
 	return;
 }
 
-int verifier_grille(char grille[LIGNE][COLONNE])
+int verifier_grille()
 {
    return 0;
 }	

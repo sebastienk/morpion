@@ -8,6 +8,7 @@
 #include "grille.h"
 #include "sauvegarde.h"
 #include "player.h"
+#include "Game.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -15,10 +16,16 @@
 #define COLONNE 10
 #define MATCH_NUL 'N'
 #define MATCH_END 'E'
+
 #define YES 1
 #define NO 0
+
 #define MULTI 1
 #define SOLO 2
+#define LOAD 3
+#define EXIT 4
+
+Game *game;
 
 char tab[LIGNE][COLONNE];
 sauve sov;
@@ -42,15 +49,17 @@ unsigned int score_joueur2 = 0;
 /* Choisir le mode de jeu MULTI pour deux humains et SOLO pour humain contre ordinateur */
 void menuJeu(void)
 {
-	int tmp = 0;
-	tmp = choseGameType();
+	game = malloc(sizeof(*game));
+
+	int tmp = choseGameType();
+	game->mode = tmp;
 	printf("tmp = %d\n", tmp);
-	if(tmp == 1)
+	if(game->mode == 1)
 	{
 		printf("MODE MULTI ");
 		mode = MULTI;
 	}
-	else if(tmp == 2)
+	else if(game->mode  == 2)
 	{
 		printf("MODE SOLO ");
         mode = SOLO;
@@ -77,31 +86,27 @@ void menuJoueur(void)
 	char joueur1[26];
 	char joueur2[26];
 	printf("Entrer le nom des joueurs\n\n");
-	printf("mode = %d\n", mode);
-	printf("Nom du Joueur1?\n");
+	printf("mode = %d\n", game->mode);
+	printf("joueur1 = %s\n", joueur1);
+	printf("Nom du Joueur1?\t %s\n", game->nomJoueur1);
+	scanf("%s", &joueur1);
+	printf("--Joueur1?\t %s\n", joueur1);
 
-	do {
-		fgets(joueur1, 26, stdin);
-		memset(g.joueur1, '\0', sizeof (g.joueur1));
-		strncpy(g.joueur1, joueur1, sizeof (g.joueur1));
-		createFile(joueur1, 0, 0, mode, 0);
-		printf("mode = %s\n", joueur1);
-	}while(joueur1 == NULL);
-	printf("mode = %d\n", mode);
-	if(mode == MULTI) {
+	strncpy(game->nomJoueur1, joueur1, 26);
+	printf("game->nomJoueur1 = %s\n", game->nomJoueur1);
+	printf("mode = %d\n", game->mode);
+	if(game->mode == MULTI) {
 		printf("Nom du Joueur2?\n");
-		fgets(joueur2, 26, stdin);
-		strncpy(g.joueur2, joueur2, sizeof (joueur2));
-		createFile(joueur2, 0, 1, mode, 0);
-	} else if( mode == SOLO){
-		createFile("computer", 0, 1, mode, 0);
+		scanf("%s", &joueur2);
+		strncpy(game->nomJoueur2, joueur2, 26);
+		/*createFile(joueur2, 0, 1, game->mode, 0);*/
+	} else if( game->mode == SOLO){
+		/*createFile("computer", 0, 1, game->mode, 0);*/
 	} else {
 
 	}
 	printf("g.joueur1 after create: %s\n", g.joueur1);
 }
-
-
 
 /* Mise à jour des sccores */
 void misAJourScore(int result)
@@ -146,11 +151,11 @@ void verifierFinPartie(void)
 		afficher_grille(tab, score_joueur1, score_joueur2);
 		if(tour == 0) {
 			tour = 1;
-			strncpy(g.joueur, g.joueur2, sizeof (g.joueur));
+			strncpy(g.joueur, game->nomJoueur2, sizeof (game->nomJoueur1));
 
 		} else {
 			tour = 0;
-			strncpy(g.joueur, g.joueur1, sizeof (g.joueur));
+			strncpy(g.joueur, game->nomJoueur1, sizeof (game->nomJoueur2));
 			
 		}
 	}	
@@ -184,13 +189,6 @@ int jouer(int tour)
 	printf("tour :: %d\n\n", tour);
 	do {
 		ligne = saisie_donnee("Ligne : ");
-
-		if(ligne == 27) {
-			printf("EXIT !!! ");
-			last = 1;
-			exitGame();
-			return 0;
-		}
 		col = saisie_donnee("Colonne : ");
 		if(tab[col][ligne] != '.')
 			correctAnswer = 1;
@@ -198,6 +196,8 @@ int jouer(int tour)
 	
 	if(tour == 0) {
 		tab[col][ligne] = 'O';
+		Coup *nouveau = malloc(sizeof(*nouveau));
+
 		sauvegardeCoups(ligne, col, tour);
 	}else{
 		tab[col][ligne] = 'X';
@@ -210,7 +210,7 @@ int main (){
 	
 	int result = 0;
 	menuJeu();
-	printf("mode %d |", mode);
+	printf("mode %d |", game->mode);
 	printf("isGameReloaded %c |", isGameReloaded);
 	g = generer_grille(tab);
 	if(isGameReloaded == NO) {
@@ -218,10 +218,9 @@ int main (){
 	}
 	time(&debut);
 	afficher_grille(tab, score_joueur1, score_joueur2);
-	strncpy(g.joueur, g.joueur1, sizeof (g.joueur));
-	while (g.statut == VIDE && last == 0)
+	strncpy(g.joueur, game->nomJoueur1, sizeof (game->nomJoueur1));
+	while (g.statut == VIDE)
 	{
-		printf("last %d, !\n", last);
 		printf("Joueur %s, a vous de jouer !\n", g.joueur);
 		if(mode == MULTI) {
 			jouer(tour);
