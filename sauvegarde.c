@@ -10,102 +10,82 @@
 #include "grille.h"
 #include "sauvegarde.h"
 
-int sauvegardeCoups(int ligne, int col, int tour)
-{
-	char fileName[20];
-	FILE *fichier;
-	if(tour == 0) {
-		strcpy(fileName, "joueur1.txt");
-	} else  {
-		strcpy(fileName, "joueur2.txt");
+
+void
+writeData (Liste *liste, Game *game) {
+
+	/* Open file or create it */
+	FILE *wfile = fopen("fichier.bin", "wb");
+	/* Init data container */
+	Coup wtabcoup[liste->nbCoup];
+	Game wtabgame[1];
+	/* prepare Liste Coup data to be written */
+	Coup *actuel = liste->premier;
+	int i = 0;
+	while (actuel != NULL)
+	{
+		printf("%s -> ", actuel->player);
+		strcpy(wtabcoup[i].player, actuel->player);
+		wtabcoup[i].ligne = actuel->ligne;
+		wtabcoup[i].colonne = actuel->colonne;
+		wtabcoup[i].suivant = actuel->suivant;
+		actuel = actuel->suivant;
+		i++;
 	}
-	fichier=fopen(fileName, "a+");
-	if(fichier==NULL){
-	  printf("\nUnable to open file myfile.txt");
-	  exit(1);
+	/* prepare Game data to be written */
+	strcpy(wtabgame[0].nomJoueur1, game->nomJoueur1);
+	strcpy(wtabgame[0].nomJoueur2, game->nomJoueur2);
+	wtabgame[0].mode = game->mode;
+	wtabgame[0].scoreJoueur1 = game->scoreJoueur1;
+	wtabgame[0].scoreJoueur2 = game->scoreJoueur2;
+	wtabgame[0].temps = game->temps;
+
+	/* Write file */
+	if (wfile != NULL) {
+		fwrite(wtabgame, sizeof(Game), 1, wfile);
+		fwrite(wtabcoup, liste->nbCoup * sizeof(Coup), 2, wfile);
+		fclose(wfile);
+	} else {
+		printf("fichier n''existe pas...");
 	}
-    fprintf(fichier, "%d", ligne);
-    fprintf(fichier, "%d", col);
-	fclose(fichier);
-    return 1;
+	printf("fin");
+	readData();
 }
 
-int createFile(char nom[20], int score, int tour, int mode, int temps)
-{
-	char fileName[7];
-	FILE *fichier;
-	if(tour == 0) {
-		strcpy(fileName, "joueur1.txt");
-	} else  {
-		strcpy(fileName, "joueur2.txt");
-	}
-	fichier = fopen(fileName, "w+");
-	if(fichier == NULL){
-	  printf("\nUnable to open file myfile.txt");
-	  exit(1);
-	}
 
-	fprintf(fichier, "%d%s", score, "\r\n");
-	fprintf(fichier, "%s%s", nom, "\r\n");
-	fprintf(fichier, "%d%s", mode, "\r\n");
-	fprintf(fichier, "%d%s", temps, "\r\n");
-	fclose(fichier);
-    return 1;
+void
+readData() {
+	FILE *rfile;
+	Game rtab_game[1];
+	Coup rtab_coup[2];
+
+	rfile = fopen("fichier.bin", "rb");
+
+
+	printf("file opened\n\n");
+	fread(rtab_game, sizeof(Game), 1, rfile);
+	fread(rtab_coup, sizeof(Coup), 2, rfile);
+
+	printf("Game 1 - joueur1 : %s \n", rtab_game[0].nomJoueur1);
+	printf("Game 1 - joueur2 : %s \n", rtab_game[0].nomJoueur2);
+	printf("Game 1 - mode : %d \n", rtab_game[0].mode);
+	printf("Game 1 - temps : %d \n", rtab_game[0].temps);
+	printf("Game 1 - scoreJoueur1 : %d \n", rtab_game[0].scoreJoueur1);
+	printf("Game 1 - scoreJoueur2 : %d \n", rtab_game[0].scoreJoueur2);
+
+	printf("\n\n\n");
+
+	printf("Coup 1 - nom : %s \n", rtab_coup[0].player);
+	printf("Coup 1 - score : %d \n", rtab_coup[0].ligne);
+	printf("Coup 1 - temps : %d \n", rtab_coup[0].colonne);
+	printf("\n");
+	printf("Coup 1 - nom : %s \n", rtab_coup[1].player);
+	printf("Coup 1 - score : %d \n", rtab_coup[1].ligne);
+	printf("Coup 1 - temps : %d \n", rtab_coup[1].colonne);
+
+	fclose(rfile);
+
+	char test = getchar();
+	printf("test: %c ", test);
 }
 
-sauve lireSauvegarde(void)
-{
-	FILE *fichier;
-	sauve sov;
-	char line[256];
-	int mode;
-	char nom[20];
-	char score[5];
-	char coups[50];
-	int count = 0;
-    int temps;
-	printf("lireSauvegardce ::\n\n");
-	fichier = fopen("joueur2.txt", "r");
-    while (fgets(line, sizeof(line), fichier)) {
-		if(count == 0) {
-			strncpy(score, line, strlen(line)-1);
-		} else if (count == 1) {
-			strncpy(nom, line, strlen(line)-1);
-		} else if (count == 2) {
-			mode = strlen(line)-1;
-		}else  if (count == 3){
-			temps = strlen(line)-1;
-		}else  if (count == 4){
-            strncpy(coups, line, strlen(line));
-        }
-		count++;  
-    }
-
-	printf("::mode: %d\n", mode);
-	printf("::score: %s\n", score); 
-    printf("::nom: %s\n", nom);
-    printf("::temps: %d\n", temps);
-    printf("::coups: %s\n\n", coups);
-
-    sov.mode = mode;
-	sov.temps = temps;
-	strncpy(sov.score, score, strlen(score));
-	strncpy(sov.nom, nom, strlen(nom));
-    strncpy(sov.coups, coups, strlen(coups));
-	
-	printf("\n\n::mode: %d\n", sov.mode);
-	printf("::score: %s\n", sov.score); 
-    printf("::nom: %s\n", sov.nom);
-    printf("::temps: %d\n", sov.temps);
-    printf("::coups: %s\n\n\n", sov.coups); 
-
-	return sov;
-}
-
-char* concat(char *s1, char *s2)
-{
-    char *result = malloc(strlen(s1)+strlen(s2)+1);
-    strcpy(result, s1);
-    strcat(result, s2);
-    return result;
-}

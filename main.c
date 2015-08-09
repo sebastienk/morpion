@@ -50,16 +50,19 @@ void exitGame(void)
 
 void loadGame(void)
 {
+	isGameReloaded = YES;
+	readData();
+	/*
 	sov = lireSauvegarde();
 	strncpy(g.joueur, sov.nom, PLAYER_NAME_SIZE);
 	game->mode = sov.mode;
-	/*game->scoreJoueur1 = sov.score;
+	game->scoreJoueur1 = sov.score;
 	game->scoreJoueur2 = sov.score;*/
-	isGameReloaded = YES;
-	printf("mode: %d\n", sov.mode);
-	/*printf("score: %d\n", score_joueur2);*/
+
+	/*printf("mode: %d\n", sov.mode);
+	printf("score: %d\n", score_joueur2);
 	printf("nom: %s\n", sov.nom);
-	printf("coups: %s\n", sov.coups);
+	printf("coups: %s\n", sov.coups);*/
 }
 
 /* Choisir le mode de jeu MULTI pour deux humains et SOLO pour humain contre ordinateur */
@@ -229,6 +232,9 @@ int main (){
 			} else {
 				struct Coup coup = ordijouer(g.tab);
 				g.tab[coup.ligne][coup.colonne] = 'X';
+				/* TEST WRITE DATA
+				   writeData(liste, game);*/
+
 			}
 		}
 

@@ -60,7 +60,7 @@ struct Coup ordijouer(char tab[][COLONNE])
 	struct Coup coup;
 	coup.ligne = ligne;
 	coup.colonne = col;
-	/*strncpy(coup.player, "Computer", 8);*/
+	strncpy(coup.player, "Computer", 8);
 	printf("after set coup.ligne : %d\n ", coup.ligne);
 	return coup;
 }

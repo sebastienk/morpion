@@ -34,7 +34,7 @@ void insertion(Liste *liste, Coup *coup)
     strncpy(nouveau->player, coup->player, sizeof (nouveau->player));
     nouveau->ligne = coup->ligne;
     nouveau->colonne = coup->colonne;
-
+    liste->nbCoup += 1;
     /* Insertion de l'élément au début de la liste */
     nouveau->suivant = liste->premier;
     liste->premier = nouveau;

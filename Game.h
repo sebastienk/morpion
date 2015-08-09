@@ -1,7 +1,8 @@
 //
 // Created by sebastienk on 8/9/2015.
 //
-
+#ifndef __GAME_H_ /* include guard */
+#define __GAME_H_
 typedef struct Coup Coup;
 struct Coup
 {
@@ -31,3 +32,4 @@ struct Liste {
 Liste *initialisation();
 void insertion(Liste *liste, Coup *coup);
 void afficherListe(Liste *liste);
+#endif /* __GAME_H_ */
