@@ -44,8 +44,6 @@ int isGameReloaded = NO;
 Liste *liste;
 
 time_t debut, fin;
-unsigned int score_joueur1 = 0;
-unsigned int score_joueur2 = 0;
 
 void exitGame(void)
 {
@@ -61,7 +59,7 @@ void loadGame(void)
 	game->scoreJoueur2 = sov.score;*/
 	isGameReloaded = YES;
 	printf("mode: %d\n", sov.mode);
-	printf("score: %d\n", score_joueur2);
+	/*printf("score: %d\n", score_joueur2);*/
 	printf("nom: %s\n", sov.nom);
 	printf("coups: %s\n", sov.coups);
 }
@@ -141,7 +139,7 @@ void verifierFinPartie(void)
 		if (game->scoreJoueur1 == game->scoreJoueur2){
 			g.statut = MATCH_NUL;
 			printf("Match nul !\n Le match a duré %d", duree);
-			getchar();
+
 		} else 	{
 			g.statut = MATCH_END;
 			if(tour == 0) 
@@ -149,7 +147,6 @@ void verifierFinPartie(void)
 			else 
 				score = game->scoreJoueur2;
 			printf("Le joueur %s gagne avec %d points!\n, %c \n Le match a duré %d", g.joueur, score, g.statut, duree);
-			getchar();
 		}	
 	}
 	else {
@@ -172,14 +169,12 @@ void verifierFinPartie(void)
 	*/
 		}
 	}
-	getchar();
 }
 
 /* joueur humain joue un coup */
 int jouer(int tour)
 {
 	int ligne, col;
-
 	int correctAnswer = 0;
 	printf("tour :: %d\n\n", tour);
 	do {
@@ -193,16 +188,14 @@ int jouer(int tour)
 		coup->ligne = ligne;
 		coup->colonne = col;
 		strncpy(coup->player, game->nomJoueur1, PLAYER_NAME_SIZE);
-		insertion(liste, coup);
+		/*insertion(liste, coup);*/
 		tab[col][ligne] = 'O';
-		/*Coup *nouveau = malloc(sizeof(*nouveau));*/
-
 		/*sauvegardeCoups(ligne, col, tour);*/
 	}else {
 		coup->ligne = ligne;
 		coup->colonne = col;
 		strncpy(coup->player, game->nomJoueur2, PLAYER_NAME_SIZE);
-		insertion(liste, coup);
+		/*insertion(liste, coup);*/
 		tab[col][ligne] = 'X';
 	/*	sauvegardeCoups(ligne, col, tour);*/
 	}
@@ -211,7 +204,6 @@ int jouer(int tour)
 
 int main (){
 	
-	/*int result = 0;*/
 	menuJeu();
 	printf("mode %d |", game->mode);
 	printf("isGameReloaded %c |", isGameReloaded);
@@ -239,18 +231,15 @@ int main (){
 				struct Coup coup;
 				ordijouer(tab, coup);
 				tab[coup.ligne][coup.colonne] = 'O';
-
 			}
 		}
 
 		/*g.nb_vide--;*/
 		/* Test si 3 pions sont allignés */
 		/*result = verifier_grille(tab);*/
-		/*misAJourScore(result);*/
 		/*misAJourScore(1);*/
 		/* Vérifie si la partie est finie */
 		verifierFinPartie();
 	}
-	getchar();
 	return 0;
 }

@@ -15,11 +15,10 @@
 int saisie_donnee (char * invite) {
    int value;
 	do {
-      printf ("%s", invite);
+      printf ("---- %s\n", invite);
 	  value = getchar();
 	  printf("value %c ", value);
 	  value -= '0';
-     /* scanf ("%d",&valeur);*/
    }while((value<0) || (value >9));
    return value;
 }
