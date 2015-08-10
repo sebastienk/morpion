@@ -73,7 +73,7 @@ int verifier_grille(char tab[][COLONNE], char c)
         temp2 = combienVertitalChar(tab, i, c);
         temp2 = (temp2 <3) ? 0 : temp2;
         if(temp2 > 0)
-            valuev = valuev + (temp2 - 2);
+            valuev = valuev + (temp2 - 2) + 1;
     }
     int valuedg = combienDiagonalGaucheHautChar(tab, 0, c);
     int valuedd = combienDiagonalGaucheBasChar(tab, 0, c);
