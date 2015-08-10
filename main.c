@@ -96,9 +96,9 @@ void misAJourScore(int result)
 		printf("Bravo Joueur %s, a vous avez gagner 1 point\nAppuyer sur Entrée pour continuer la partie", joueur);
 		/*scanf("%s", next); */
 		if(tour == 0) {
-			game->scoreJoueur1 = game->scoreJoueur1 + 1;
+			game->scoreJoueur1 = game->scoreJoueur1 + result;
 		} else {
-			game->scoreJoueur2 = game->scoreJoueur2 + 1;
+			game->scoreJoueur2 = game->scoreJoueur2 + result;
 		}
 	}
 }
@@ -208,10 +208,13 @@ main ()
 		}
 		g.nb_vide--;
 		/* Test si 3 pions sont allignés */
-		/*result = verifier_grille(g.tab);*/
-		misAJourScore(1);
+		char signe = (tour == 0) ? 'O' : 'X';
+		int result = verifier_grille(g.tab, signe);
+		printf("\n----- result: %d\n ", result);
+		misAJourScore(result);
 		/* Vérifie si la partie est finie */
 		verifierFinPartie();
+
 	}
 	return 0;
 }
