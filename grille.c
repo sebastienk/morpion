@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+
 #include "grille.h"
 
 char* values = "abcdefghij";
@@ -31,11 +32,11 @@ grille generer_grille ()
 	return g;
 }
 
-void afficher_grille (char tab[][COLONNE], int score1, int score2)
+void afficher_grille (char tab[][COLONNE], Game *g)
 {
 	int i,j;
 	ClearScreen();
-	printf(" joueur1 : %d   -   joueur2 : %d  \n", score1, score2);
+	printf(" %s : %d   -   %s : %d  \n", g->nomJoueur1, g->scoreJoueur1, g->nomJoueur2, g->scoreJoueur2);
 	printf("\n");
 	printf("_____________________________________________\n");
 	printf("|   | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |\n");
@@ -92,19 +93,20 @@ int combienVertitalChar(char tab[][COLONNE], int index, char c)
         if(tab[i][index] == c)
             value++;
     }
-    printf("\ncombienVertitalChar %d - --> %d\n", index, value);
+    printf("\n carctère attendu %c --- VERTICAL --> %d\n", c, value);
     return value;
 }
 
 
 int combienHorizontalChar(char tab[][COLONNE], int index, char c)
 {
+
     int value = 0;
     for(int i=0; i<COLONNE; i++){
         if(tab[index][i] == c)
             value++;
     }
-    printf("\ncombienHorizontalChar %d - --> %d\n", index, value);
+    printf("\n carctère attendu %c --- HORIZONTAL --> %d\n", c, value);
     return value;
 }
 
@@ -112,7 +114,7 @@ int combienDiagonalGaucheHautChar(char tab[][COLONNE], int index, char c)
 {
     int value = 0;
     int value_tmp = 0;
-    printf("\n##################################################################################\n");
+    printf("\n############################## dia gauche haut ######## carctère attendu %c ############################################\n", c);
     int a = 0;
     int b = 0;
     int j = 0;
@@ -148,7 +150,7 @@ int combienDiagonalGaucheBasChar(char tab[][COLONNE], int index, char c)
 {
     int value = 0;
     int value_tmp = 0;
-    printf("\n############################# dia droite #########################################\n");
+    printf("\n############################# dia gauche bas ######## caractère attendu : %c #################################\n", c);
     int a = 1;
     int b = 0;
     int j = 0;

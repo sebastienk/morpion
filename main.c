@@ -128,7 +128,7 @@ void verifierFinPartie(void)
 		}	
 	}
 	else {
-		afficher_grille(g.tab, game->scoreJoueur1, game->scoreJoueur2);
+		afficher_grille(g.tab, game);
 	/*	printf("game->scoreJoueur1 %d\n", game->scoreJoueur1);
 		printf("game->scoreJoueur2 %d\n", game->scoreJoueur2);
 	*/
@@ -188,7 +188,7 @@ main ()
 		menuJoueur();
 	}
 	time(&debut);
-	afficher_grille(g.tab, game->scoreJoueur1, game->scoreJoueur2);
+	afficher_grille(g.tab, game);
 	strncpy(joueur, game->nomJoueur1, PLAYER_NAME_SIZE);
 	liste = initialisation();
 	while (g.statut == VIDE)

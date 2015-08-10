@@ -1,6 +1,8 @@
 #ifndef FUNCTIONS_H_INCLUDED
 #define FUNCTIONS_H_INCLUDED
 
+#include "Game.h"
+
 #define LIGNE 10
 #define COLONNE 10
 #define JOUEUR1 'O'
@@ -17,7 +19,7 @@ struct grille {
 
 grille generer_grille ();
 
-void afficher_grille (char tab[][COLONNE], int score1, int score2);
+void afficher_grille (char tab[][COLONNE], Game *g);
 
 int verifier_grille(char tab[][COLONNE],char c);
 
