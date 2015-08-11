@@ -27,7 +27,7 @@ void ClearScreen (void);
 
 int combienHorizontalChar(char tab[][COLONNE], int index, char c);
 
-int combienVertitalChar(char tab[][COLONNE], int index, char c);
+int combienVerticalChar(char tab[][COLONNE], int index, char c);
 
 int combienDiagonalGaucheHautChar(char tab[][COLONNE], int index, char c);
 

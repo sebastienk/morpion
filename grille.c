@@ -65,12 +65,12 @@ int verifier_grille(char tab[][COLONNE], char c)
     int valueh = 0;
     int valuev = 0;
     int temp1, temp2;
-	for(int i=0; i<1; i++){
+	for(int i=0; i<LIGNE; i++){
        /* temp1 = combienHorizontalChar(tab, i, c);
         temp1 = (temp1 < 3) ? 0 : temp1;
         if(temp1 > 0)
             valueh = valueh + temp1;*/
-        temp2 = combienVertitalChar(tab, i, c);
+        temp2 = combienVerticalChar(tab, i, c);
         //temp2 = (temp2 <3) ? 0 : temp2;
         if(temp2 > 0)
             valuev = valuev + temp2;
@@ -106,18 +106,19 @@ int combienHorizontalChar(char tab[][COLONNE], int index, char c)
 }
 
 
-int combienVertitalChar(char tab[][COLONNE], int index, char c)
+int combienVerticalChar(char tab[][COLONNE], int index, char c)
 {
     int value, value_tmp = 0;
     printf("\n############################## VERTICAL ######## caractere attendu %c ############################################\n", c);
     for(int i=0; i<COLONNE; i++){
         if(tab[index][i] == c) {
             value_tmp++;
+            printf("++ value_tmp= %d --- value=%d\n", value_tmp, value);
             if(value_tmp >2) {
-                value = value + 1;
+                value = value + ((value_tmp -3) + 1) - (value_tmp - 3);
             }
-            printf(" i = %d -- tab[index][i-1]+%c isRESET? ", i, tab[index][i-1]);
-            if(i != 0 && tab[index][i-1] != c) {
+            printf("value: %d ------ i = %d -- tab[index][i-1]+%c isRESET? ", value, i, tab[index][i-1]);
+            if(i != 0 && tab[index][i+1] != c) {
                 printf("YES \n");
                 value_tmp = 0;
             } else {
