@@ -92,15 +92,13 @@ void menuJoueur(void)
 /* Mise à jour des sccores */
 void misAJourScore(int result)
 {
-	if(result == 1) {
-		printf("Bravo Joueur %s, a vous avez gagner 1 point\nAppuyer sur Entrée pour continuer la partie", joueur);
-		/*scanf("%s", next); */
-		if(tour == 0) {
-			game->scoreJoueur1 = result;
-		} else {
-			game->scoreJoueur2 = result;
-		}
+	/*scanf("%s", next); */
+	if(tour == 0) {
+		game->scoreJoueur1 = result;
+	} else {
+		game->scoreJoueur2 = result;
 	}
+
 }
 
 /* Vérifie fin de partie */

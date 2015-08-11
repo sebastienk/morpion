@@ -49,13 +49,12 @@ int choseGameType(void)
 struct Coup ordijouer(char tab[][COLONNE])
 {
 	int ligne, col;
-	int correctAnswer = 0;
+	int correctAnswer = 1;
 	do {
 		ligne = getComputerCoord();
 		col = getComputerCoord();
-		if(tab[col][ligne] != '.')
-			correctAnswer = 1;
-
+		if(tab[col][ligne] == '.')
+			correctAnswer = 0;
 	} while(correctAnswer == 1);
 	struct Coup coup;
 	coup.ligne = ligne;

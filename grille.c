@@ -83,6 +83,7 @@ int verifier_grille(char tab[][COLONNE], char c)
     printf("\nvaluedg %d \n", valuedg);
     printf("\nvaluedd %d \n", valuedd);
     int total = valueh + valuev + valuedg + valuedd;
+    printf("\ntotal %d \n", total);
     return total;
 }
 
