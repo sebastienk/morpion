@@ -91,8 +91,13 @@ int combienVertitalChar(char tab[][COLONNE], int index, char c)
 {
     int value = 0;
     for(int i=0; i<COLONNE; i++){
-        if(tab[i][index] == c)
-            value++;
+        if(tab[i][index] == c) {
+            if(value < 3 && tab[i+1][index] != c) {
+                value = 0;
+            } else {
+                value++;
+            }
+        }
     }
     printf("\n carctère attendu %c --- VERTICAL --> %d\n", c, value);
     return value;
@@ -104,8 +109,13 @@ int combienHorizontalChar(char tab[][COLONNE], int index, char c)
 
     int value = 0;
     for(int i=0; i<COLONNE; i++){
-        if(tab[index][i] == c)
-            value++;
+        if(tab[index][i] == c) {
+            if(value < 3 && tab[index][i+1] != c) {
+                value = 0;
+            } else {
+                value++;
+            }
+        }
     }
     printf("\n carctère attendu %c --- HORIZONTAL --> %d\n", c, value);
     return value;
@@ -116,29 +126,25 @@ int combienDiagonalGaucheHautChar(char tab[][COLONNE], int index, char c)
     int value = 0;
     int value_tmp = 0;
     printf("\n############################## dia gauche haut ######## carctère attendu %c ############################################\n", c);
-    int a = 0;
-    int b = 0;
-    int j = 0;
-    int n = 0;
-    int p = 0;
+    int a, b, n, p = 0;
     while(a < 8) {
-        n = a - 0;
+        n = a;
         p = 0;
         b = 0;
-        j = LIGNE - a;
-        printf(":: %d -- %d -- %d = %d  --->  ", a, b, j, value);
+        printf(":: %d -- %d = %d  --->  ", a, b, value);
         value_tmp = 0;
-        while(b < j) {
+        while(b < LIGNE - a) {
             printf("%d - %d (%c) ",n, p, tab[n][p]);
             if(tab[n][p] == c)
                 value_tmp++;
-            n += 1;
-            p += 1;
+            n++;
+            p++;
             b++;
         }
-        int reste = (value_tmp < 3) ? 0 : (value_tmp - 2);
-        printf(" ### %d o/o3 %d  ** ", value_tmp, reste);
-        value = value + reste;
+        
+        printf(" ### %d  ** ", value_tmp);
+        if(value_tmp > 2)
+            value = value + (value_tmp-2);
         printf(" value after %d\n", value);
         printf("\n");
         a++;
@@ -153,28 +159,24 @@ int combienDiagonalGaucheBasChar(char tab[][COLONNE], int index, char c)
     int value_tmp = 0;
     printf("\n############################# dia gauche bas ######## caractère attendu : %c #################################\n", c);
     int a = 1;
-    int b = 0;
-    int j = 0;
-    int n = 0;
-    int p = 0;
+    int b,n,p = 0;
     while(a < 8) {
         n = 0;
-        p = a-0;
         b = 0;
-        j = LIGNE - a;
-        printf(":: %d -- %d -- %d = %d  --->  ", a, b, j, value);
+        p = a;
+        printf(":: %d -- %d = %d  --->  ", a, b, value);
         value_tmp = 0;
-        while(b < j) {
+        while(b < LIGNE - a) {
             printf("%d - %d (%c) ",n, p, tab[n][p]);
             if (tab[n][p] == c)
                 value_tmp++;
-            n += 1;
-            p += 1;
+            n++;
+            p++;
             b++;
         }
-        int reste = (value_tmp < 3) ? 0 : (value_tmp - 2);
-        printf(" ### %d o/o3 %d  ** ", value_tmp, reste);
-        value = value + reste;
+        printf(" ### %d ** ", value_tmp);
+        if(value_tmp >2)
+            value = value + (value_tmp-2);
         printf("\n");
         a++;
     }
