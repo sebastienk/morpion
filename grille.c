@@ -65,15 +65,15 @@ int verifier_grille(char tab[][COLONNE], char c)
     int valueh = 0;
     int valuev = 0;
     int temp1, temp2;
-	for(int i=0; i<LIGNE; i++){
-        temp1 = combienHorizontalChar(tab, i, c);
+	for(int i=0; i<1; i++){
+       /* temp1 = combienHorizontalChar(tab, i, c);
         temp1 = (temp1 < 3) ? 0 : temp1;
         if(temp1 > 0)
-            valueh = valueh + (temp1 - 3) + 1;
+            valueh = valueh + temp1;*/
         temp2 = combienVertitalChar(tab, i, c);
-        temp2 = (temp2 <3) ? 0 : temp2;
+        //temp2 = (temp2 <3) ? 0 : temp2;
         if(temp2 > 0)
-            valuev = valuev + (temp2 - 3) + 1;
+            valuev = valuev + temp2;
     }
     int valuedg = combienDiagonalGaucheHautChar(tab, 0, c);
     int valuedd = combienDiagonalGaucheBasChar(tab, 0, c);
@@ -87,10 +87,12 @@ int verifier_grille(char tab[][COLONNE], char c)
     return total;
 }
 
-int combienVertitalChar(char tab[][COLONNE], int index, char c)
+int combienHorizontalChar(char tab[][COLONNE], int index, char c)
 {
     int value = 0;
+   /* printf("\n############################## HORIZONTAL ######## carctère attendu %c ############################################\n", c);*/
     for(int i=0; i<COLONNE; i++){
+       /* printf("%d - %d (%c) ",index, i, tab[i][index]);*/
         if(tab[i][index] == c) {
             if(value < 3 && tab[i+1][index] != c) {
                 value = 0;
@@ -99,25 +101,35 @@ int combienVertitalChar(char tab[][COLONNE], int index, char c)
             }
         }
     }
-    printf("\n carctère attendu %c --- VERTICAL --> %d\n", c, value);
+    /*printf("\n carctère attendu %c --- HORIZONTAL --> %d\n", c, value);*/
     return value;
 }
 
 
-int combienHorizontalChar(char tab[][COLONNE], int index, char c)
+int combienVertitalChar(char tab[][COLONNE], int index, char c)
 {
-
-    int value = 0;
+    int value, value_tmp = 0;
+    printf("\n############################## VERTICAL ######## caractere attendu %c ############################################\n", c);
     for(int i=0; i<COLONNE; i++){
         if(tab[index][i] == c) {
-            if(value < 3 && tab[index][i+1] != c) {
-                value = 0;
-            } else {
-                value++;
+            value_tmp++;
+            if(value_tmp >2) {
+                value = value + 1;
             }
+            printf(" i = %d -- tab[index][i-1]+%c isRESET? ", i, tab[index][i-1]);
+            if(i != 0 && tab[index][i-1] != c) {
+                printf("YES \n");
+                value_tmp = 0;
+            } else {
+                printf("NO \n");
+            }
+        } else {
+         value_tmp = 0;
         }
+        printf("i=%d -- value_tmp = %d tab[index][i] = (%c) # ", i, value_tmp, tab[index][i]);
+        printf("  value_tmp : %d -- tab[index][i-1]: %c\n ", value_tmp, tab[index][i-1]);
     }
-    printf("\n carctère attendu %c --- HORIZONTAL --> %d\n", c, value);
+    if(c = 'O') printf("\n caractere attendu %c --- VERTICAL --> %d\n", c, value);
     return value;
 }
 
@@ -131,10 +143,10 @@ int combienDiagonalGaucheHautChar(char tab[][COLONNE], int index, char c)
         n = a;
         p = 0;
         b = 0;
-        printf(":: %d -- %d = %d  --->  ", a, b, value);
+       printf(":: %d -- %d = %d  --->  ", a, b, value);
         value_tmp = 0;
         while(b < LIGNE - a) {
-            printf("%d - %d (%c) ",n, p, tab[n][p]);
+          printf("%d - %d (%c) ",n, p, tab[n][p]);
             if(tab[n][p] == c)
                 value_tmp++;
             n++;
